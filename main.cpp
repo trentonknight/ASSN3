@@ -1,9 +1,4 @@
 #include <iostream>
-#include <iomanip>
-#include <string>
-#include <cstdlib>
-#include <cmath>
-#include <cstddef>
 
 #ifdef _WIN32 
 #include <windows.h>
@@ -11,52 +6,93 @@
 
 using namespace std;
 
-
-struct List{
-  char letters;
-  List *link;
+struct Stack{
+  char data;
+  int count;
+  Stack *top;
+  Stack *next;
 };
 
-List *makeTopNode(List*);
-List *addListToMiddleNodes(List*,string);
+
+Stack *createStack(Stack*);
+Stack *pushStack(Stack*,char);
+char popStack(Stack*);
 string usersList();
+
+
 
 int main(){
  
   string userInput;
-
-    List *pPass = new(nothrow) List;
-    if(!pPass){
-      cout << "Allocation Error!" << endl;
-      return 1;
-    }
-    List *head = new(nothrow) List;
-    if(!head){
-      cout << "Allocation Error!" << endl;
-      return 1;
-    }
-    head->link = 0;
-    head->letters = '\0';
-    pPass = makeTopNode(head);   
-    userInput = usersList();
-    addListToMiddleNodes(pPass,userInput);    
-
-    return 0;
- }
-
-List *makeTopNode(List *top){
-  List *newNode = new(nothrow) List;
-  newNode->link = 0;
-  newNode->letters = '\0';
-
-  if(!newNode){
+  char letter;
+  int readString;
+  
+  Stack *node = new(nothrow) Stack;
+  if(!node){
+    cout << "Allocation Error!" << endl;
+    return 1;
+  }
+  Stack *list = new(nothrow) Stack;
+  if(!list){
+    cout << "Allocation Error!" << endl;
+    return 1;
+  }
+  list->top = node;
+  userInput = usersList();
+  createStack(list);
+  while(userInput[readString] != '\0'){
+    letter = userInput[readString];
+    pushStack(list,letter);
+    readString++;
+  }
+  while(list->count != 0){
+    letter = popStack(list);
+    cout << letter << endl;
+  }
+   
+#ifdef _WIN32 
+  system ("PAUSE");
+#endif
+  return 0;
+}
+Stack *createStack(Stack*){
+  Stack *first = new(nothrow) Stack;
+  if(!first){
     cout << "Allocation Error!" << endl;
   }
   else{
-    newNode->link = top;
-    top = newNode;
+    first->count = 0;
+    first->top = 0;
   }
-  return top;
+  return first;
+}
+Stack *pushStack(Stack* push,char data){
+  Stack *newPtr = new(nothrow) Stack;
+  if(!newPtr){
+    cout << "Allocation Error!" << endl;
+  }  
+  else{
+    newPtr->data = data;
+    newPtr->next = push->top;
+    push->top = newPtr;
+    push->count = push->count + 1;
+  }
+  return push;
+}
+
+char popStack(Stack* pop){
+ char outData;
+ Stack *dltPtr = new(nothrow) Stack;
+  if(!dltPtr){
+    cout << "Allocation Error!" << endl;
+  } 
+  dltPtr = pop->top;
+  outData = pop->top->data;
+  pop->top = pop->top->next;
+  pop->count = pop->count - 1;
+
+  delete dltPtr;
+  return outData;
 }
 string usersList(){
   string user;
@@ -66,24 +102,4 @@ string usersList(){
 
   return user;
 }
-List *addListToMiddleNodes(List* mid,string lets){
-  int letter = 0;
-  List *newNode = new(nothrow) List;
-  if(!newNode){
-    cout << "Allocation Error!" << endl;
-  }
-  else{
-  while(lets[letter] != '\000'){
-    newNode->letters = lets[letter];
-    ///add new node to middle of the list
-    while(mid != 0){
-     mid = mid->link;
-    }
-    newNode->link = 0;
-    mid = new(nothrow) List;
-    mid->link = newNode;
-    letter++;
-  }
-  }
-  return mid;
-}
+
