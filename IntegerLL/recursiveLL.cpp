@@ -28,6 +28,7 @@ int main(){
   int outPut = 0;
   int place = 10;
   int rmZero = 0;
+  int count = 0;
   
   Stack *node = new(nothrow) Stack;
   if(!node){
@@ -41,8 +42,14 @@ int main(){
   }
   userInput = usersNUM();
   createStack(list);
+  //recursive push function
   pushStack(list,userInput,place,rmZero);
+  count = list->count;
+  while(count != 0){
   outPut = popStack(list);
+  cout << outPut << endl;
+  count--;
+  }
    
 #ifdef _WIN32 
   system ("PAUSE");
@@ -69,14 +76,25 @@ Stack *pushStack(Stack* push,int data,int numPlace,int rmZero){
   else{
     //first break up the number for list
     num = data % numPlace;
+    //get whole number in proper
+    //place
     data = data - num;
+    //subtract num from original number
+    //for next recursive call
     if(rmZero > 0){
+    //get rid of trailing zero's
       num = num / rmZero;
     }
+    //rmZero first run prepair
+    //int for multiplication
+    //before recursive call
     else{
       rmZero = 1;
     }
-    if(num != 0){
+    //if num or data do not equal zero
+    //push onto list
+    if(data != 0 || num != 0){
+      //grab number
       newPtr->data = num;
       newPtr->next = push->top;
       push->top = newPtr;
