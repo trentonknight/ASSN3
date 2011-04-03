@@ -6,26 +6,25 @@
 
 using namespace std;
 
+
 struct Stack{
-  char data;
+  int data;
   int count;
   Stack *top;
   Stack *next;
 };
 
-
 Stack *createStack(Stack*);
 Stack *pushStack(Stack*,char);
-char popStack(Stack*);
-string usersList();
+int popStack(Stack*);
+int usersNUM();
 
 
 
 int main(){
  
-  string userInput;
-  char letter;
-  int readString;
+  int userInput;
+  int number;
   
   Stack *node = new(nothrow) Stack;
   if(!node){
@@ -37,18 +36,11 @@ int main(){
     cout << "Allocation Error!" << endl;
     return 1;
   }
-  list->top = node;
-  userInput = usersList();
-  createStack(list);
-  while(userInput[readString] != '\0'){
-    letter = userInput[readString];
-    pushStack(list,letter);
-    readString++;
-  }
-  while(list->count != 0){
-    letter = popStack(list);
-    cout << letter << endl;
-  }
+    userInput = usersNUM();
+    createStack(list);
+    pushStack(list,userInput);
+    number = popStack(list);
+    cout << number;
    
 #ifdef _WIN32 
   system ("PAUSE");
@@ -80,8 +72,8 @@ Stack *pushStack(Stack* push,char data){
   return push;
 }
 
-char popStack(Stack* pop){
- char outData;
+int popStack(Stack* pop){
+ int outData;
  Stack *dltPtr = new(nothrow) Stack;
   if(!dltPtr){
     cout << "Allocation Error!" << endl;
@@ -94,11 +86,11 @@ char popStack(Stack* pop){
   delete dltPtr;
   return outData;
 }
-string usersList(){
-  string user;
+int usersNUM(){
+ int user;
 
-  cout << "Please enter a list of lowercase letters." << endl;
-  getline(cin,user);
+  cout << "Please enter a number." << endl;
+  cin >> user;
 
   return user;
 }
