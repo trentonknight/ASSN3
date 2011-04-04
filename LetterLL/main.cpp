@@ -14,6 +14,8 @@ struct Stack{
 };
 
 Stack *createStack(Stack*);
+Stack *recurseIN(Stack*,int);
+Stack *destroyStack(Stack*);
 Stack *pushStack(Stack*,string,int);
 Stack *pushStackTwo(Stack*,char);
 char popStack(Stack*);
@@ -22,11 +24,10 @@ string usersList();
 
 
 int main(){
- 
-  string userInput;
   char letter;
-  int readString = 0;
-  int count,countTwo = 0;
+  int count = 0,
+    countTwo = 0,
+    check = 0;
   
   Stack *node = new(nothrow) Stack;
   if(!node){
@@ -39,10 +40,7 @@ int main(){
     return 1;
   }
   list->top = node;
-  userInput = usersList();
-  createStack(list);
-  //recursive push stack
-  pushStack(list,userInput,readString);
+  recurseIN(list,check);
   count = list->count;
   countTwo = list->count;
   while(count != 0){
@@ -51,18 +49,42 @@ int main(){
     pushStackTwo(node,letter);
     count--;
   }
- 
+  destroyStack(list);
+
   while(countTwo != 0){
     letter = popStack(node);
     cout << letter;
     countTwo--;
   }
   cout << endl;
+  
+  destroyStack(node);
    
 #ifdef _WIN32 
   system ("PAUSE");
 #endif
   return 0;
+}
+Stack *recurseIN(Stack* in,int checkChars){
+  string userInput;
+  int readString = 0;
+
+  userInput = usersList();
+  createStack(in);
+  //recursive push stack
+  if(!isalpha(userInput[checkChars])){
+    cout << "Whoops! Invalid Character." << endl;
+    userInput.clear();
+    checkChars = 0;
+    recurseIN(in,checkChars);
+  }
+ else{
+   if(userInput[checkChars] != '\0'){
+     checkChars++;
+   }
+   pushStack(in,userInput,readString);
+ }
+return in;
 }
 Stack *createStack(Stack*){
   Stack *first = new(nothrow) Stack;
@@ -82,12 +104,12 @@ Stack *pushStack(Stack* push,string data,int index){
   }  
   else{
     if(data[index] != '\0'){
-    newPtr->data = data[index];
-    newPtr->next = push->top;
-    push->top = newPtr;
-    push->count = push->count + 1;
-    index++;
-    pushStack(push,data,index);
+      newPtr->data = data[index];
+      newPtr->next = push->top;
+      push->top = newPtr;
+      push->count = push->count + 1;
+      index++;
+      pushStack(push,data,index);
     }
  
   }
@@ -103,13 +125,13 @@ Stack *pushStackTwo(Stack* push,char data){
     newPtr->next = push->top;
     push->top = newPtr;
     push->count = push->count + 1;
-    }
+  }
  
   return push;
 }
 char popStack(Stack* pop){
- char outData;
- Stack *dltPtr = new(nothrow) Stack;
+  char outData;
+  Stack *dltPtr = new(nothrow) Stack;
   if(!dltPtr){
     cout << "Allocation Error!" << endl;
   } 
@@ -120,6 +142,20 @@ char popStack(Stack* pop){
 
   delete dltPtr;
   return outData;
+}
+Stack *destroyStack(Stack* del){
+  Stack *temp = new(nothrow) Stack;
+  if(!temp){
+    cout << "Allocation Error!" << endl;
+  }
+  temp = del->top;
+   if(del->top != 0){ 
+  del->top = del->top->next;
+   }
+  del->count = del->count  - 1;
+
+  delete temp;
+  return del;
 }
 string usersList(){
   string user;
