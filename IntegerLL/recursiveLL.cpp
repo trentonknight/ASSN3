@@ -11,12 +11,12 @@ struct Stack{
   int data;
   int count;
   Stack *top;
-  Stack *tail;
   Stack *next;
 };
 
 Stack *createStack(Stack*);
-Stack *pushStack(Stack*,int,int,int);
+Stack *pushStackOne(Stack*, int, int, int);
+Stack *pushStackTwo(Stack*, int);
 int popStack(Stack*);
 int usersNUM();
 
@@ -43,14 +43,26 @@ int main(){
   userInput = usersNUM();
   createStack(list);
   //recursive push function
-  pushStack(list,userInput,place,rmZero);
+  pushStackOne(list,userInput,place,rmZero);
   count = list->count;
+  cout << "You entered: ";
   while(count != 0){
   outPut = popStack(list);
-  cout << outPut << endl;
+  cout << outPut;
+  pushStackTwo(node,outPut);
   count--;
   }
-   
+  cout << endl;
+  //now pop again
+  cout << "After pushing, and popping the stack twice: " << endl;
+  count = node->count;
+  while(count != 0){
+    outPut = popStack(node);
+    cout << outPut;
+    count--;
+  }
+  cout << endl;
+ 
 #ifdef _WIN32 
   system ("PAUSE");
 #endif
@@ -67,7 +79,7 @@ Stack *createStack(Stack*){
   }
   return first;
 }
-Stack *pushStack(Stack* push,int data,int numPlace,int rmZero){
+Stack *pushStackOne(Stack* push,int data,int numPlace,int rmZero){
   int num = 0;
   Stack *newPtr = new(nothrow) Stack;
   if(!newPtr){
@@ -97,17 +109,28 @@ Stack *pushStack(Stack* push,int data,int numPlace,int rmZero){
       //grab number
       newPtr->data = num;
       newPtr->next = push->top;
-      push->top = newPtr;
+      push->top = newPtr; 
       push->count = push->count + 1;
       numPlace = numPlace * 10;
       rmZero = rmZero * 10;
-      pushStack(push,data,numPlace,rmZero);
+      pushStackOne(push,data,numPlace,rmZero);
     }
     else{
       push->next = 0;
-      push->tail = push;
     }
   }
+  return push;
+}
+Stack *pushStackTwo(Stack* push,int data){
+  Stack *newPtr = new(nothrow) Stack;
+  if(!newPtr){
+    cout << "Allocation Error!" << endl;
+  }  
+      newPtr->data = data;
+      newPtr->next = push->top;
+      push->top = newPtr;
+      push->count = push->count + 1;
+
   return push;
 }
 
