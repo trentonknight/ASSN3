@@ -8,12 +8,13 @@ using namespace std;
 
 
 struct Stack{
-  int data;
+  long int data;
   int count;
   Stack *top;
   Stack *next;
 };
 
+void display();
 Stack *createStack(Stack*);
 Stack *pushStackOne(Stack*, int, int, int);
 Stack *pushStackTwo(Stack*, int);
@@ -40,6 +41,7 @@ int main(){
     cout << "Allocation Error!" << endl;
     return 1;
   }
+  display();
   userInput = usersNUM();
   createStack(list);
   //recursive push function
@@ -47,10 +49,10 @@ int main(){
   count = list->count;
   cout << "You entered: ";
   while(count != 0){
-  outPut = popStack(list);
-  cout << outPut;
-  pushStackTwo(node,outPut);
-  count--;
+    outPut = popStack(list);
+    cout << outPut;
+    pushStackTwo(node,outPut);
+    count--;
   }
   cout << endl;
   //now pop again
@@ -94,7 +96,7 @@ Stack *pushStackOne(Stack* push,int data,int numPlace,int rmZero){
     //subtract num from original number
     //for next recursive call
     if(rmZero > 0){
-    //get rid of trailing zero's
+      //get rid of trailing zero's
       num = num / rmZero;
     }
     //rmZero first run prepair
@@ -126,10 +128,10 @@ Stack *pushStackTwo(Stack* push,int data){
   if(!newPtr){
     cout << "Allocation Error!" << endl;
   }  
-      newPtr->data = data;
-      newPtr->next = push->top;
-      push->top = newPtr;
-      push->count = push->count + 1;
+  newPtr->data = data;
+  newPtr->next = push->top;
+  push->top = newPtr;
+  push->count = push->count + 1;
 
   return push;
 }
@@ -149,9 +151,20 @@ int popStack(Stack* pop){
   return outData;
 }
 int usersNUM(){
-  int user;
-  cout << "Please enter a number." << endl;
+  int user = 0;
+  cout << "Enter a number: " << endl;
   cin >> user;
+  while(user > 100000000){
+    cin.clear();
+    cout << "Whoops! that number is too large for a standard INT" << endl;
+    cout << "Please try something smaller than 1,000,000,000" << endl;
+    user = usersNUM();
+  }
   return user;
 }
+void display(){
 
+  cout << "This program takes a number of your choice and\n"
+    "reverses it using a Stack Linked List" << endl;
+ 
+}
