@@ -14,7 +14,7 @@ struct Stack{
 };
 
 Stack *createStack(Stack*);
-Stack *pushStack(Stack*,char);
+Stack *pushStack(Stack*,string,int);
 char popStack(Stack*);
 string usersList();
 
@@ -24,7 +24,7 @@ int main(){
  
   string userInput;
   char letter;
-  int readString;
+  int readString = 0;
   
   Stack *node = new(nothrow) Stack;
   if(!node){
@@ -39,11 +39,8 @@ int main(){
   list->top = node;
   userInput = usersList();
   createStack(list);
-  while(userInput[readString] != '\0'){
-    letter = userInput[readString];
-    pushStack(list,letter);
-    readString++;
-  }
+  pushStack(list,userInput,readString);
+
   while(list->count != 0){
     letter = popStack(list);
     cout << letter << " ";
@@ -65,16 +62,21 @@ Stack *createStack(Stack*){
   }
   return first;
 }
-Stack *pushStack(Stack* push,char data){
+Stack *pushStack(Stack* push,string data,int index){
   Stack *newPtr = new(nothrow) Stack;
   if(!newPtr){
     cout << "Allocation Error!" << endl;
   }  
   else{
-    newPtr->data = data;
+    if(data[index] != '\0'){
+    newPtr->data = data[index];
     newPtr->next = push->top;
     push->top = newPtr;
     push->count = push->count + 1;
+    index++;
+    pushStack(push,data,index);
+    }
+ 
   }
   return push;
 }
