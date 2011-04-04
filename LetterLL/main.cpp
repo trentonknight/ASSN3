@@ -15,6 +15,7 @@ struct Stack{
 
 Stack *createStack(Stack*);
 Stack *pushStack(Stack*,string,int);
+Stack *pushStackTwo(Stack*,char);
 char popStack(Stack*);
 string usersList();
 
@@ -25,6 +26,7 @@ int main(){
   string userInput;
   char letter;
   int readString = 0;
+  int count,countTwo = 0;
   
   Stack *node = new(nothrow) Stack;
   if(!node){
@@ -39,12 +41,23 @@ int main(){
   list->top = node;
   userInput = usersList();
   createStack(list);
+  //recursive push stack
   pushStack(list,userInput,readString);
-
-  while(list->count != 0){
+  count = list->count;
+  countTwo = list->count;
+  while(count != 0){
     letter = popStack(list);
-    cout << letter << " ";
+    letter = toupper(letter);
+    pushStackTwo(node,letter);
+    count--;
   }
+ 
+  while(countTwo != 0){
+    letter = popStack(node);
+    cout << letter;
+    countTwo--;
+  }
+  cout << endl;
    
 #ifdef _WIN32 
   system ("PAUSE");
@@ -80,7 +93,20 @@ Stack *pushStack(Stack* push,string data,int index){
   }
   return push;
 }
-
+Stack *pushStackTwo(Stack* push,char data){
+  Stack *newPtr = new(nothrow) Stack;
+  if(!newPtr){
+    cout << "Allocation Error!" << endl;
+  }  
+  else{
+    newPtr->data = data;
+    newPtr->next = push->top;
+    push->top = newPtr;
+    push->count = push->count + 1;
+    }
+ 
+  return push;
+}
 char popStack(Stack* pop){
  char outData;
  Stack *dltPtr = new(nothrow) Stack;
