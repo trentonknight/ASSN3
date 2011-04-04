@@ -78,13 +78,13 @@ Stack *recurseIN(Stack* in,int checkChars){
     checkChars = 0;
     recurseIN(in,checkChars);
   }
- else{
-   if(userInput[checkChars] != '\0'){
-     checkChars++;
-   }
-   pushStack(in,userInput,readString);
- }
-return in;
+  else{
+    if(userInput[checkChars] != '\0'){
+      checkChars++;
+    }
+    pushStack(in,userInput,readString);
+  }
+  return in;
 }
 Stack *createStack(Stack*){
   Stack *first = new(nothrow) Stack;
@@ -149,9 +149,9 @@ Stack *destroyStack(Stack* del){
     cout << "Allocation Error!" << endl;
   }
   temp = del->top;
-   if(del->top != 0){ 
-  del->top = del->top->next;
-   }
+  if(del->top != 0){ 
+    del->top = del->top->next;
+  }
   del->count = del->count  - 1;
 
   delete temp;
@@ -159,8 +159,9 @@ Stack *destroyStack(Stack* del){
 }
 string usersList(){
   string user;
-
-  cout << "Please enter a list of lowercase letters." << endl;
+  cout << "This program takes lowercase letters and converts them" << endl;
+  cout <<"to uppercase with the use of two push and pops to a stack." << endl;
+  cout << "Please enter a list of lowercase letters.: " << endl;
   getline(cin,user);
 
   return user;
