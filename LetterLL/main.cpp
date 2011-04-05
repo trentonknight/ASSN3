@@ -15,7 +15,6 @@ struct Stack{
 
 Stack *createStack(Stack*);
 Stack *recurseIN(Stack*,int);
-Stack *destroyStack(Stack*);
 Stack *pushStack(Stack*,string,int);
 Stack *pushStackTwo(Stack*,char);
 char popStack(Stack*);
@@ -39,6 +38,7 @@ int main(){
     cout << "Allocation Error!" << endl;
     return 1;
   }
+  list->count = 0;
   list->top = node;
   recurseIN(list,check);
   count = list->count;
@@ -49,7 +49,6 @@ int main(){
     pushStackTwo(node,letter);
     count--;
   }
-  destroyStack(list);
 
   while(countTwo != 0){
     letter = popStack(node);
@@ -58,8 +57,6 @@ int main(){
   }
   cout << endl;
   
-  destroyStack(node);
-   
 #ifdef _WIN32 
   system ("PAUSE");
 #endif
@@ -142,20 +139,6 @@ char popStack(Stack* pop){
 
   delete dltPtr;
   return outData;
-}
-Stack *destroyStack(Stack* del){
-  Stack *temp = new(nothrow) Stack;
-  if(!temp){
-    cout << "Allocation Error!" << endl;
-  }
-  temp = del->top;
-  if(del->top != 0){ 
-    del->top = del->top->next;
-  }
-  del->count = del->count  - 1;
-
-  delete temp;
-  return del;
 }
 string usersList(){
   string user;
