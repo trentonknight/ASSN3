@@ -33,13 +33,21 @@ int main(){
     cout << "Allocation Error!" << endl;
     return 1;
   }
+  node->count = 0;
+  node->top = 0;
+  node->next = 0;
+  node->data = '\0';
+  
   Stack *list = new(nothrow) Stack;
   if(!list){
     cout << "Allocation Error!" << endl;
     return 1;
-  }
+  } 
   list->count = 0;
-  list->top = node;
+  list->top = 0;
+  list->next = 0;
+  list->data = '\0';
+  
   recurseIN(list,check);
   count = list->count;
   countTwo = list->count;

@@ -30,25 +30,32 @@ int main(){
   int place = 10;
   int rmZero = 0;
   int count = 0;
-  
+  //node for second stack
   Stack *node = new(nothrow) Stack;
   if(!node){
     cout << "Allocation Error!" << endl;
     return 1;
   }
+  node->count = 0;
+  node->data = 0;
+  //node for first stack
   Stack *list = new(nothrow) Stack;
   if(!list){
     cout << "Allocation Error!" << endl;
     return 1;
   }
+  list->count = 0;
+  list->data = 0;
+    
   display();
   userInput = usersNUM();
   createStack(list);
+
   //recursive push function
   pushStackOne(list,userInput,place,rmZero);
   count = list->count;
   cout << "You entered: ";
-  while(count != 0){
+  while(count > 0 ){
     outPut = popStack(list);
     cout << outPut;
     pushStackTwo(node,outPut);
@@ -58,7 +65,7 @@ int main(){
   //now pop again
   cout << "After pushing, and popping the stack twice: " << endl;
   count = node->count;
-  while(count != 0){
+  while(count > 0 ){
     outPut = popStack(node);
     cout << outPut;
     count--;
