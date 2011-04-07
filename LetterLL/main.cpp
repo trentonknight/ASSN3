@@ -14,9 +14,9 @@ struct Stack{
 };
 
 Stack *createStack(Stack*);
-Stack *recurseIN(Stack*,int);
-Stack *pushStack(Stack*,string,int);
-Stack *pushStackTwo(Stack*,char);
+Stack *verifyIN(Stack*,int,string);
+bool checkThisChar(char);
+Stack *pushStack(Stack*,char);
 char popStack(Stack*);
 string usersList();
 
@@ -27,6 +27,7 @@ int main(){
   int count = 0,
     countTwo = 0,
     check = 0;
+  string userInput;
   
   Stack *node = new(nothrow) Stack;
   if(!node){
@@ -47,14 +48,15 @@ int main(){
   list->top = 0;
   list->next = 0;
   list->data = '\0';
-  
-  recurseIN(list,check);
+ 
+  userInput = usersList();  
+  verifyIN(list,check,userInput);
   count = list->count;
   countTwo = list->count;
   while(count != 0){
     letter = popStack(list);
     letter = toupper(letter);
-    pushStackTwo(node,letter);
+    pushStack(node,letter);
     count--;
   }
 
@@ -70,68 +72,136 @@ int main(){
 #endif
   return 0;
 }
-Stack *recurseIN(Stack* in,int checkChars){
-  string userInput;
-  int readString = 0;
-
-  userInput = usersList();
+Stack *verifyIN(Stack* in,int checkChars,string userInput){
   createStack(in);
   //recursive push stack
-  if(!isalpha(userInput[checkChars])){
-    cout << "Whoops! Invalid Character." << endl;
-    userInput.clear();
-    checkChars = 0;
-    recurseIN(in,checkChars);
-  }
-  else{
-    if(userInput[checkChars] != '\0'){
-      checkChars++;
+  if(userInput[checkChars] != '\0'){
+    if(!checkThisChar(userInput[checkChars])){
+      userInput.clear();
+      checkChars = 0;
+      verifyIN(in,checkChars,userInput);
     }
-    pushStack(in,userInput,readString);
+    else{
+      pushStack(in,userInput[checkChars]);
+      checkChars++;
+      verifyIN(in,checkChars,userInput);
+    }
   }
   return in;
+}
+bool checkThisChar(char input){
+
+  bool goodChar = true;
+
+  switch (input)
+    {
+    case 'a':
+      goodChar = true;
+      break;
+    case 'b':
+      goodChar = true;
+      break;
+    case 'c':
+      goodChar = true;
+      break;
+    case 'd':
+      goodChar = true;
+      break;
+    case 'e':
+      goodChar = true;
+      break;
+    case 'f':
+      goodChar = true;
+      break;
+    case 'g':
+      goodChar = true;
+      break;
+    case 'h':
+      goodChar = true;
+      break;
+    case 'i':
+      goodChar = true;
+      break;
+    case 'j':
+      goodChar = true;
+      break;
+    case 'k':
+      goodChar = true;
+      break;
+    case 'l':
+      goodChar = true;
+      break;
+    case 'm':
+      goodChar = true;
+      break;
+    case 'n':
+      goodChar = true;
+      break;
+    case 'o':
+      goodChar = true;
+      break;
+    case 'p':
+      goodChar = true;
+      break;
+    case 'q':
+      goodChar = true;
+      break;
+    case 'r':
+      goodChar = true;
+      break;
+    case 's':
+      goodChar = true;
+      break;
+    case 't':
+      goodChar = true;
+      break;
+    case 'u':
+      goodChar = true;
+      break;
+    case 'v':
+      goodChar = true;
+      break;
+    case 'w':
+      goodChar = true;
+      break;
+    case 'x':
+      goodChar = true;
+      break;
+    case 'y':
+      goodChar = true;
+      break;
+    case 'z':
+      goodChar = true;
+      break;
+    default:
+      goodChar = false;
+      cout << "ERROR! Please enter a lower case letter." << endl; 
+    }
+  return goodChar;
 }
 Stack *createStack(Stack*){
   Stack *first = new(nothrow) Stack;
   if(!first){
     cout << "Allocation Error!" << endl;
   }
-  else{
-    first->count = 0;
-    first->top = 0;
-  }
+  first->count = 0;
+  first->top = 0;
+  first->next = 0;
+  first->data = '\0';
+
   return first;
 }
-Stack *pushStack(Stack* push,string data,int index){
+Stack *pushStack(Stack* push,char data){
   Stack *newPtr = new(nothrow) Stack;
   if(!newPtr){
     cout << "Allocation Error!" << endl;
   }  
   else{
-    if(data[index] != '\0'){
-      newPtr->data = data[index];
+      newPtr->data = data;
       newPtr->next = push->top;
       push->top = newPtr;
       push->count = push->count + 1;
-      index++;
-      pushStack(push,data,index);
-    }
- 
   }
-  return push;
-}
-Stack *pushStackTwo(Stack* push,char data){
-  Stack *newPtr = new(nothrow) Stack;
-  if(!newPtr){
-    cout << "Allocation Error!" << endl;
-  }  
-  else{
-    newPtr->data = data;
-    newPtr->next = push->top;
-    push->top = newPtr;
-    push->count = push->count + 1;
-  }
- 
   return push;
 }
 char popStack(Stack* pop){

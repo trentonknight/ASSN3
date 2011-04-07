@@ -38,6 +38,8 @@ int main(){
   }
   node->count = 0;
   node->data = 0;
+  node->top = 0;
+  node->next = 0;
   //node for first stack
   Stack *list = new(nothrow) Stack;
   if(!list){
@@ -46,6 +48,8 @@ int main(){
   }
   list->count = 0;
   list->data = 0;
+  list->top = 0;
+  list->next = 0;
     
   display();
   userInput = usersNUM();
@@ -82,10 +86,11 @@ Stack *createStack(Stack*){
   if(!first){
     cout << "Allocation Error!" << endl;
   }
-  else{
-    first->count = 0;
-    first->top = 0;
-  }
+  first->count = 0;
+  first->data = 0;
+  first->top = 0;
+  first->next = 0;
+
   return first;
 }
 Stack *pushStackOne(Stack* push,int data,int numPlace,int rmZero){
@@ -95,6 +100,10 @@ Stack *pushStackOne(Stack* push,int data,int numPlace,int rmZero){
     cout << "Allocation Error!" << endl;
   }  
   else{
+  newPtr->count = 0;
+  newPtr->data = 0;
+  newPtr->top = 0;
+  newPtr->next = 0;
     //first break up the number for list
     num = data % numPlace;
     //get whole number in proper
@@ -134,7 +143,12 @@ Stack *pushStackTwo(Stack* push,int data){
   Stack *newPtr = new(nothrow) Stack;
   if(!newPtr){
     cout << "Allocation Error!" << endl;
-  }  
+  }
+  newPtr->count = 0;
+  newPtr->data = 0;
+  newPtr->top = 0;
+  newPtr->next = 0;
+  
   newPtr->data = data;
   newPtr->next = push->top;
   push->top = newPtr;
@@ -149,6 +163,11 @@ int popStack(Stack* pop){
   if(!dltPtr){
     cout << "Allocation Error!" << endl;
   } 
+  dltPtr->count = 0;
+  dltPtr->data = 0;
+  dltPtr->top = 0;
+  dltPtr->next = 0;  
+
   dltPtr = pop->top;
   outData = pop->top->data;
   pop->top = pop->top->next;
