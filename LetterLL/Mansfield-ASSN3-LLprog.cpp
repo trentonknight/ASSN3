@@ -46,7 +46,7 @@ int main(){
     countTwo = 0,
     check = 0;
   string userInput;
-  
+  //create two nodes, one for each stack
   Stack *node = new(nothrow) Stack;
   if(!node){
     cout << "Allocation Error!" << endl;
@@ -66,21 +66,36 @@ int main(){
   list->top = 0;
   list->next = 0;
   list->data = '\0';
- 
+  //retrieve user input
   userInput = usersList();  
+  //verify string characters
+  //and then push to stack
   verifyIN(list,check,userInput);
+  //retrieve incremented count
   count = list->count;
-  countTwo = list->count;
+  //retrive count again for second
+  //loop
+   countTwo = list->count;
   while(count != 0){
+    //pop first stack and
+    //retrieve data
     letter = popStack(list);
+    //convert verified characters to
+    //uppercase
     letter = toupper(letter);
+    //push to stack a second time.
     pushStack(node,letter);
+    //decrement count
     count--;
   }
 
   while(countTwo != 0){
+    //pop second stack a
+    //print to user after deleteing
+    //un-needed node.
     letter = popStack(node);
     cout << letter;
+    //decrement list.
     countTwo--;
   }
   cout << endl;
@@ -109,17 +124,23 @@ Stack *verifyIN(Stack* in,int checkChars,string userInput){
   createStack(in);
   //recursive push stack
   if(userInput[checkChars] != '\0'){
+    //if character is not verified clear input and recurse
+    //from count 0.
     if(!checkThisChar(userInput[checkChars])){
       userInput.clear();
       checkChars = 0;
       verifyIN(in,checkChars,userInput);
     }
     else{
+      //else if character is verified push to stack
       pushStack(in,userInput[checkChars]);
+      //increment count
       checkChars++;
+      //recurse until string userInput = '\0'
       verifyIN(in,checkChars,userInput);
     }
   }
+  //return new list
   return in;
 }
 ///////////////////////////////////////////////////////////////////////////
@@ -135,7 +156,9 @@ Stack *verifyIN(Stack* in,int checkChars,string userInput){
 bool checkThisChar(char input){
 
   bool goodChar = true;
-
+  //basic switch statement
+  //which allows only lowercase
+  //alpha characters.
   switch (input)
     {
     case 'a':
@@ -235,6 +258,7 @@ Stack *createStack(Stack*){
   if(!first){
     cout << "Allocation Error!" << endl;
   }
+  //create generic top node for stack
   first->count = 0;
   first->top = 0;
   first->next = 0;
@@ -257,6 +281,8 @@ Stack *pushStack(Stack* push,char data){
     cout << "Allocation Error!" << endl;
   }  
   else{
+    //append new data to node and 
+    //add to the stack
     newPtr->data = data;
     newPtr->next = push->top;
     push->top = newPtr;
@@ -278,12 +304,18 @@ char popStack(Stack* pop){
   if(!dltPtr){
     cout << "Allocation Error!" << endl;
   } 
+  //pointer to address of node
+  //to be deleted
   dltPtr = pop->top;
+  //grab character data
   outData = pop->top->data;
+  //traverse
   pop->top = pop->top->next;
+  //decrement count
   pop->count = pop->count - 1;
-
+  //delete un-needed node
   delete dltPtr;
+  //return character data.
   return outData;
 }
 ///////////////////////////////////////////////////////////////////////////
